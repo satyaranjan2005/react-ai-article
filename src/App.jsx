@@ -7,9 +7,10 @@ const App = () => {
   const [content, setContent] = useState("");
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  const[error, setError] = useState(null);
   const editorRef = useRef(null);
 
-  const API_KEY = import.meta.env.GOOGLE_API_KEY;
+  const API_KEY = "AIzaSyAnyY7_hg5JIo0pn3gzbtumCNi94GP1R0Q";
 
   const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -28,6 +29,8 @@ const App = () => {
       animateTyping(editorRef.current, data);
     } catch (error) {
       console.error("Error generating article:", error);
+      console.error("Error generating article:", error);
+      setError("Error generating article:", error);
       alert("Error generating article. Please try again.");
     } finally {
       setLoading1(false);
@@ -48,6 +51,7 @@ const App = () => {
     } catch (error) {
       console.error("Error optimizing article:", error);
       alert("Error optimizing article. Please try again.");
+      setError("Error optimizing article:", error);
     } finally {
       setLoading2(false);
     }
@@ -138,10 +142,15 @@ const App = () => {
             Please enter a title to generate an article.
           </p>
         )}
+        {error && (
+          <p className="text-white text-center mb-4">
+            Error generating article. Please try again.
+          </p>
+        )}
 
         <Editor
           onInit={(evt, editor) => (editorRef.current = editor)}
-          apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
+          apiKey={"vzpl25yff882ejlhybmk5awfrjv1izvof7livdms76t117e3"}
           init={{
             height: 300,
             menubar: false,
